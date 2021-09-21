@@ -20,7 +20,7 @@ const courseSchema = new mongoose.Schema({
     },
     isAdmin: {
         type: Boolean,
-        default: true
+        default: false
     },
     mobileNo: {
         type: String,
