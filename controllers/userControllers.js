@@ -75,13 +75,11 @@ module.exports.loginUser = (reqBody) => {
     })
 }
 
-module.exports.retrieveDetails = (reqBody) => {
-    return User.findOne({_id: reqBody.id}).then(result => {
-        if(result == null) {
-            return false;
-        } else {
-            result.password = "";
-            return result;       
-        }
-    })
+module.exports.getProfile = (data) => {
+	return User.findById( data.userId ).then(result => {
+		// result.password = "";
+        console.log(data);
+		return result;
+
+	})
 }

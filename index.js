@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const cors = require ('cors');
 
 // allow access to routes defined within our application
-const userRoute = require('./routes/userRoutes');
-
+const userRoutes = require('./routes/userRoutes');
+const courseRoutes = require('./routes/courseRoutes')
 
 const app = express();
 
@@ -24,7 +24,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 // '/users' to be included  or all user routes defined in the 'userRoutes' file
-app.use('/users', userRoute);
+app.use('/users', userRoutes);
+app.use('/courses', courseRoutes);
 
 
 // Will use the defined port number for the application whenever an environment variable is available OR will use port 4000 if none is defined
