@@ -71,3 +71,15 @@ module.exports.updateCourse = (req) => {
             : { message: "Course update failed" }; })
     .catch(error => res.status(500).send({message: "Internal Server Error"}))
 }
+
+// archive a course
+module.exports.archiveCourse = (req) => {
+    return Course.findByIdAndUpdate({ _id: req.params.courseId }, 
+        {   isActive: false
+        })
+    .then(archivedCourse => { 
+        return (archivedCourse) 
+            ? { message: "Course archive was successful"} 
+            : { message: "Course archive failed" }; })
+    .catch(error => res.status(500).send({message: "Internal Server Error"}))
+}

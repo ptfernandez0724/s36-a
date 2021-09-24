@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const auth = require('../auth');
+const Course = require('../models/course');
 
 // check if the email already exists
 
@@ -82,4 +83,38 @@ module.exports.getProfile = (data) => {
 		return result;
 
 	})
+}
+
+// enroll a user to a class/course
+// async await will be used to enroll the user
+module.exports.enroll = async (data) => {
+    let isUserUpdated = await User.findById(data.userId).then(user => {
+        user.enrollments.push({courseId: data.courseId})
+
+    // save the updated user information in the database
+    return user.save().then((user, error) => {
+        if(error){
+            return false;
+        } else {
+            return true;
+        }
+    })
+})
+
+    let isCourseUpdated = await Course.findById(data.courseId).then(course => {
+        course.enrollees.push({userId: data.userId});
+
+        return course.save().then((course, error) => {
+            if(error) {
+                return false;
+            } else {
+                return true;
+            }
+        })
+    })
+    if(isUserUpdated && isCourseUpdated){
+        return true;
+    } else {
+        return false;
+    }
 }

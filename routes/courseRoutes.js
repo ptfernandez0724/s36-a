@@ -44,11 +44,20 @@ router.put('/:courseId', auth.verify, (req, res) => {
     } else {
         res.send(false)
     }
-    
-    
 })
 
+// archive a course/soft delete a course
+router.put('/:courseId/archive', auth.verify, (req, res) => {
+    const data = {
+        isAdmin: auth.decode(req.headers.authorization).isAdmin
+    }
 
+    if(data.isAdmin){
+        courseController.archiveCourse(req).then(result => res.send(result))
+    } else {
+        res.send(false)
+    }
+})
 
 
 
